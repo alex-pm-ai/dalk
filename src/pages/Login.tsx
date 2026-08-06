@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Zap } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { ApiError } from '../lib/api';
+import { Logo } from '../components/ui/Logo';
 
 export function Login() {
   const login = useAuthStore((s) => s.login);
@@ -32,11 +32,8 @@ export function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0a0c14] px-4">
       <div className="w-full max-w-sm">
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center">
-            <Zap size={18} className="text-white" />
-          </div>
-          <span className="font-bold text-white text-2xl tracking-wide">DALK</span>
+        <div className="flex items-center justify-center mb-8">
+          <Logo size="lg" />
         </div>
 
         <div className="bg-card border border-card-border rounded-2xl p-6">

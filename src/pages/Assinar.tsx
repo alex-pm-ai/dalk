@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Zap, Check, LogOut, Loader2 } from 'lucide-react';
+import { Check, LogOut, Loader2 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { api } from '../lib/api';
+import { Logo } from '../components/ui/Logo';
 
 interface Plano {
   id: string;
@@ -70,12 +71,7 @@ export function Assinar() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#0a0c14] px-4 py-10">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-              <Zap size={16} className="text-white" />
-            </div>
-            <span className="font-bold text-white text-xl tracking-wide">DALK</span>
-          </div>
+          <Logo size="md" />
           <button
             onClick={() => logout()}
             className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-red-400 transition-colors"

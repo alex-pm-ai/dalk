@@ -1,9 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, BarChart2, History, FileText,
-  Calendar, Target, CheckSquare, Settings, Plus, LogOut, Zap,
+  Calendar, Target, CheckSquare, Settings, Plus, LogOut,
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
+import { Logo } from '../ui/Logo';
 
 const nav = [
   { to: '/',            icon: LayoutDashboard, label: 'Dashboard' },
@@ -28,11 +29,8 @@ export function Sidebar({ onAddRevisao, onAddFlashcard }: Props) {
   return (
     <aside className="fixed top-0 left-0 h-screen w-52 bg-[#0d1117] border-r border-card-border flex flex-col z-30">
       {/* Logo */}
-      <div className="flex items-center gap-2 px-4 py-5 border-b border-card-border">
-        <div className="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
-          <Zap size={14} className="text-white" />
-        </div>
-        <span className="font-bold text-white text-base tracking-wide">DALK</span>
+      <div className="flex items-center px-4 py-5 border-b border-card-border">
+        <Logo size="sm" />
       </div>
 
       {/* Nav */}
