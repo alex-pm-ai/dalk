@@ -77,16 +77,16 @@ export function Simulados() {
           <div className="flex gap-6 items-start">
             <ResponsiveContainer width={260} height={220}>
               <RadarChart data={radarData}>
-                <PolarGrid stroke="#1e2a3b" />
+                <PolarGrid stroke="rgba(255,255,255,0.09)" />
                 <PolarAngleAxis dataKey="area" tick={{ fontSize: 10, fill: '#6b7280' }} />
                 <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                <Radar name="%" dataKey="pct" stroke="#818cf8" fill="#818cf8" fillOpacity={0.3} strokeWidth={2} />
+                <Radar name="%" dataKey="pct" stroke="#bcc829" fill="#bcc829" fillOpacity={0.3} strokeWidth={2} />
                 <Tooltip
                   content={({ active, payload }: any) => {
                     if (!active || !payload?.[0]) return null;
                     const d = payload[0].payload;
                     return (
-                      <div className="bg-[#111827] border border-card-border rounded-lg px-3 py-2 text-xs">
+                      <div className="bg-card border border-card-border rounded-lg px-3 py-2 text-xs">
                         <p className="text-gray-300">{d.fullArea}</p>
                         <p className="text-indigo-400 font-bold">{d.pct}%</p>
                         <p className="text-gray-500">{d.acertos}/{d.total} questões</p>

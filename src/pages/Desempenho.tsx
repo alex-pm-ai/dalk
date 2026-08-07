@@ -96,7 +96,7 @@ export function Desempenho() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload?.length) return null;
     return (
-      <div className="bg-[#111827] border border-card-border rounded-lg px-3 py-2 text-xs">
+      <div className="bg-card border border-card-border rounded-lg px-3 py-2 text-xs">
         <p className="text-gray-400 mb-1">{label}</p>
         {payload.map((p: any) => (
           <p key={p.name} style={{ color: p.color }}>{p.name}: {p.value}</p>
@@ -155,11 +155,11 @@ export function Desempenho() {
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={questoesChart}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e2a3b" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.09)" />
               <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Line type="monotone" dataKey="questoes" name="Questões" stroke="#3b82f6" strokeWidth={2} dot={{ fill: '#3b82f6', r: 3 }} />
+              <Line type="monotone" dataKey="questoes" name="Questões" stroke="#bcc829" strokeWidth={2} dot={{ fill: '#bcc829', r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -181,7 +181,7 @@ export function Desempenho() {
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={questoesChart}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e2a3b" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.09)" />
               <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
