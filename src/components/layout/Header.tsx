@@ -33,7 +33,7 @@ export function Header() {
   })();
 
   return (
-    <header className="h-12 flex items-center justify-between px-6 border-b border-card-border bg-[#0a0c14]">
+    <header className="h-12 flex items-center justify-between px-6 border-b border-card-border bg-background">
       <span className="text-sm text-gray-400">{BREADCRUMBS[pathname] ?? 'Dashboard'}</span>
       <div className="flex items-center gap-3">
         <button className="text-gray-500 hover:text-gray-300 transition-colors">

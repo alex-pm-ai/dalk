@@ -49,14 +49,14 @@ export function Simulados() {
         <h2 className="text-lg font-bold text-white">Simulados</h2>
         <button
           onClick={() => setAddOpen(true)}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors"
+          className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium px-3 py-2 rounded-lg transition-colors"
         >
           <Plus size={14} /> Adicionar Simulado
         </button>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        <StatsCard label="Simulados Realizados" value={count} icon={<BarChart2 size={16} className="text-blue-400" />} />
+        <StatsCard label="Simulados Realizados" value={count} icon={<BarChart2 size={16} className="text-primary" />} />
         <StatsCard
           label="Média de Acertos"
           value={`${mediaAcertos}%`}
@@ -165,7 +165,7 @@ export function Simulados() {
                   </td>
                 </tr>
                 {expanded === sim.id && sim.detalhePorArea.length > 0 && (
-                  <tr className="border-b border-card-border/50 bg-[#0d1117]">
+                  <tr className="border-b border-card-border/50 bg-muted">
                     <td colSpan={6} className="px-6 py-4">
                       <p className="text-xs font-medium text-gray-400 mb-3">Detalhe por Área</p>
                       <div className="space-y-2">

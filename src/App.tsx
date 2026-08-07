@@ -19,8 +19,8 @@ import { ConfigRevisao } from './pages/ConfigRevisao';
 
 function Loader({ texto }: { texto: string }) {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-[#0a0c14] text-gray-400">
-      <Loader2 size={22} className="animate-spin text-blue-500" />
+    <div className="min-h-screen flex flex-col items-center justify-center gap-3 bg-background text-gray-400">
+      <Loader2 size={22} className="animate-spin text-primary" />
       <span className="text-sm">{texto}</span>
     </div>
   );
@@ -32,7 +32,7 @@ function AppShell() {
 
   return (
     <BrowserRouter>
-      <div className="flex min-h-screen bg-[#0a0c14]">
+      <div className="flex min-h-screen bg-background">
         <Sidebar
           onAddRevisao={() => setAddRevisaoOpen(true)}
           onAddFlashcard={() => setAddFlashcardOpen(true)}

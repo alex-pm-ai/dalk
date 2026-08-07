@@ -87,7 +87,7 @@ export function Desempenho() {
   const PeriodBtn = ({ p }: { p: Period }) => (
     <button
       onClick={() => setPeriod(p)}
-      className={`px-3 py-1 rounded text-xs font-medium transition-colors ${period === p ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
+      className={`px-3 py-1 rounded text-xs font-medium transition-colors ${period === p ? 'bg-primary text-primary-foreground' : 'text-gray-400 hover:text-white'}`}
     >
       {p}
     </button>
@@ -138,7 +138,7 @@ export function Desempenho() {
       <div className="grid grid-cols-3 gap-4">
         <StatsCard label="Acurácia Geral" value={`${acuraciaGeral}%`} icon={<BarChart2 size={16} className="text-yellow-400" />} iconBg="bg-yellow-600/20" />
         <StatsCard label="Total de Horas" value={minutesToHours(totalHoras)} icon={<Clock size={16} className="text-purple-400" />} iconBg="bg-purple-600/20" />
-        <StatsCard label="Questões Realizadas" value={totalQuestoes} icon={<CheckSquare size={16} className="text-blue-400" />} />
+        <StatsCard label="Questões Realizadas" value={totalQuestoes} icon={<CheckSquare size={16} className="text-primary" />} />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -146,7 +146,7 @@ export function Desempenho() {
         <div className="bg-card border border-card-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-white flex items-center gap-2">
-              <span className="text-blue-400">↗</span> Questões Realizadas
+              <span className="text-primary">↗</span> Questões Realizadas
             </p>
             <div className="flex items-center gap-1">
               <PeriodBtn p="Semana" /><PeriodBtn p="Mês" />

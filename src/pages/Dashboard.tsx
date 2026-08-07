@@ -80,7 +80,7 @@ export function Dashboard() {
           value={questoesSemana}
           sub="Continue o bom trabalho!"
           subColor="text-gray-500"
-          icon={<TrendingUp size={16} className="text-blue-400" />}
+          icon={<TrendingUp size={16} className="text-primary" />}
         />
         <StatsCard
           label="Taxa de acerto na semana"
@@ -110,12 +110,12 @@ export function Dashboard() {
                 type="number"
                 value={metaInput}
                 onChange={e => setMetaInput(e.target.value)}
-                className="w-24 bg-[#0d1117] border border-card-border rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-24 bg-muted border border-card-border rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-primary"
               />
-              <button onClick={saveMeta} className="text-xs text-blue-400 hover:text-blue-300">Salvar</button>
+              <button onClick={saveMeta} className="text-xs text-primary hover:text-primary">Salvar</button>
             </div>
           ) : (
-            <button onClick={() => setEditMeta(true)} className="text-xs text-blue-400 hover:text-blue-300">Definir Meta</button>
+            <button onClick={() => setEditMeta(true)} className="text-xs text-primary hover:text-primary">Definir Meta</button>
           )}
         </div>
         <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
@@ -155,8 +155,8 @@ export function Dashboard() {
             const dayRevs = revisoes.filter(r => r.dataRevisao === date);
             const isToday = date === today();
             return (
-              <div key={date} className={`min-h-24 rounded-lg border p-1.5 ${isToday ? 'border-blue-500/50 bg-blue-500/5' : 'border-card-border'}`}>
-                <p className={`text-xs font-medium mb-1 text-center w-6 h-6 flex items-center justify-center rounded-full mx-auto ${isToday ? 'bg-blue-600 text-white' : 'text-gray-400'}`}>
+              <div key={date} className={`min-h-24 rounded-lg border p-1.5 ${isToday ? 'border-primary/50 bg-primary/5' : 'border-card-border'}`}>
+                <p className={`text-xs font-medium mb-1 text-center w-6 h-6 flex items-center justify-center rounded-full mx-auto ${isToday ? 'bg-primary text-primary-foreground' : 'text-gray-400'}`}>
                   {parseInt(date.split('-')[2])}
                 </p>
                 <div className="space-y-0.5">

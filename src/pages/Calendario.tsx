@@ -81,7 +81,7 @@ export function Calendario() {
           {/* Grid dias */}
           <div className="grid grid-cols-7">
             {cells.map((date, idx) => {
-              if (!date) return <div key={`empty-${idx}`} className="border-b border-r border-card-border/30 min-h-28 bg-[#0a0c14]/30" />;
+              if (!date) return <div key={`empty-${idx}`} className="border-b border-r border-card-border/30 min-h-28 bg-background/30" />;
 
               const dayRevs = getRevs(date);
               const isToday = date === todayStr;
@@ -93,12 +93,12 @@ export function Calendario() {
                   key={date}
                   onClick={() => setSelected(isSelected ? null : date)}
                   className={`border-b border-r border-card-border/30 min-h-28 p-1.5 cursor-pointer transition-colors ${
-                    isSelected ? 'bg-blue-500/10' : 'hover:bg-white/[0.02]'
+                    isSelected ? 'bg-primary/10' : 'hover:bg-white/[0.02]'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
                     <span className={`text-xs font-medium w-6 h-6 flex items-center justify-center rounded-full ${
-                      isToday ? 'bg-blue-600 text-white' : 'text-gray-400'
+                      isToday ? 'bg-primary text-primary-foreground' : 'text-gray-400'
                     }`}>
                       {dayNum}
                     </span>
@@ -143,7 +143,7 @@ export function Calendario() {
                 ) : (
                   <div className="space-y-2">
                     {selectedRevs.map(r => (
-                      <div key={r.id} className="bg-[#0d1117] rounded-lg p-2.5">
+                      <div key={r.id} className="bg-muted rounded-lg p-2.5">
                         <div className="flex items-start justify-between gap-1">
                           <div className="min-w-0">
                             <p className="text-xs font-medium text-white truncate">{r.subArea}</p>

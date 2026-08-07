@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Zap, Check, LogOut, Loader2 } from 'lucide-react';
+import { Check, LogOut, Loader2 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { api } from '../lib/api';
+import { Logo } from '../components/ui/Logo';
 
 interface Plano {
   id: string;
@@ -67,15 +68,10 @@ export function Assinar() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#0a0c14] px-4 py-10">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background px-4 py-10">
       <div className="w-full max-w-md">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-              <Zap size={16} className="text-white" />
-            </div>
-            <span className="font-bold text-white text-xl tracking-wide">DALK</span>
-          </div>
+          <Logo size="md" />
           <button
             onClick={() => logout()}
             className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-red-400 transition-colors"
@@ -97,7 +93,7 @@ export function Assinar() {
               {planos.map((p) => (
                 <div
                   key={p.id}
-                  className="border border-card-border rounded-xl p-4 hover:border-blue-500/50 transition-colors"
+                  className="border border-card-border rounded-xl p-4 hover:border-primary/50 transition-colors"
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div>
@@ -116,7 +112,7 @@ export function Assinar() {
                   <button
                     onClick={() => assinar(p.id)}
                     disabled={loading}
-                    className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-white text-sm font-medium transition-colors"
+                    className="w-full py-2 rounded-lg bg-primary hover:bg-primary/90 disabled:bg-gray-700 text-primary-foreground text-sm font-medium transition-colors"
                   >
                     {loading ? 'Gerando...' : 'Assinar com Pix'}
                   </button>
@@ -133,12 +129,12 @@ export function Assinar() {
               Copie o código abaixo no app do seu banco. A liberação é automática após a confirmação.
             </p>
 
-            <div className="bg-[#0d1117] border border-card-border rounded-xl p-4 mb-5">
+            <div className="bg-muted border border-card-border rounded-xl p-4 mb-5">
               <p className="text-[10px] text-gray-500 mb-2 uppercase tracking-wide">Pix Copia e Cola</p>
               <p className="text-xs text-gray-300 break-all font-mono">{checkout.pixQrCode}</p>
             </div>
 
-            <div className="flex items-center justify-center gap-2 text-sm text-blue-400 mb-5">
+            <div className="flex items-center justify-center gap-2 text-sm text-primary mb-5">
               <Loader2 size={15} className="animate-spin" />
               Aguardando confirmação do pagamento...
             </div>

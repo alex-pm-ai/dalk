@@ -71,3 +71,6 @@ export default defineConfig([
   },
 ])
 ```
+
+---
+Ambiente configurado por Alex Pagno em 04/08/2026, seguindo o guia de setup do projeto.
