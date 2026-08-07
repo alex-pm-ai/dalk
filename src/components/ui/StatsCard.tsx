@@ -9,7 +9,7 @@ interface Props {
   iconBg?: string;
 }
 
-export function StatsCard({ label, value, sub, subColor = 'text-gray-500', icon, iconBg = 'bg-blue-600/20' }: Props) {
+export function StatsCard({ label, value, sub, subColor = 'text-gray-500', icon, iconBg = 'bg-primary/20' }: Props) {
   return (
     <div className="bg-card border border-card-border rounded-xl p-5 flex items-start justify-between">
       <div>

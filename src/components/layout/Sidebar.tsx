@@ -27,7 +27,7 @@ export function Sidebar({ onAddRevisao, onAddFlashcard }: Props) {
   const logout = useAuthStore(s => s.logout);
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-52 bg-[#0d1117] border-r border-card-border flex flex-col z-30">
+    <aside className="fixed top-0 left-0 h-screen w-52 bg-muted border-r border-card-border flex flex-col z-30">
       {/* Logo */}
       <div className="flex items-center px-4 py-5 border-b border-card-border">
         <Logo size="sm" />
@@ -43,7 +43,7 @@ export function Sidebar({ onAddRevisao, onAddFlashcard }: Props) {
             className={({ isActive }) =>
               `flex items-center gap-2.5 px-4 py-2 mx-2 rounded-lg text-sm transition-colors ${
                 isActive
-                  ? 'bg-blue-600/20 text-blue-400 font-medium'
+                  ? 'bg-primary/20 text-primary font-medium'
                   : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
               }`
             }
@@ -65,7 +65,7 @@ export function Sidebar({ onAddRevisao, onAddFlashcard }: Props) {
         </button>
         <button
           onClick={onAddRevisao}
-          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-blue-600/20 text-blue-400 hover:bg-blue-600/30 text-sm font-medium transition-colors"
+          className="w-full flex items-center justify-center gap-2 py-2 rounded-lg bg-primary/20 text-primary hover:bg-primary/30 text-sm font-medium transition-colors"
         >
           <Plus size={14} />
           Adicionar Revisão
@@ -75,7 +75,7 @@ export function Sidebar({ onAddRevisao, onAddFlashcard }: Props) {
       {/* User */}
       <div className="border-t border-card-border px-4 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2 min-w-0">
-          <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-xs font-bold text-white flex-shrink-0">
+          <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center text-xs font-bold text-primary-foreground flex-shrink-0">
             {(usuario?.nome ?? 'DA').slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0">
