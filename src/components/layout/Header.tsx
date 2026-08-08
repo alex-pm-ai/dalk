@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { BookOpen, Bell, Flame, Menu } from 'lucide-react';
+import { Flame, Menu } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { today, daysAgo } from '../../utils/dateUtils';
 
@@ -50,20 +50,6 @@ export function Header({ onMenuClick }: Props) {
         <span className="text-sm text-gray-400">{BREADCRUMBS[pathname] ?? 'Dashboard'}</span>
       </div>
       <div className="flex items-center gap-3">
-        <button
-          className="text-gray-500 hover:text-gray-300 transition-colors"
-          aria-label="Guia de estudos"
-          title="Guia de estudos"
-        >
-          <BookOpen size={16} />
-        </button>
-        <button
-          className="text-gray-500 hover:text-gray-300 transition-colors"
-          aria-label="Notificações"
-          title="Notificações"
-        >
-          <Bell size={16} />
-        </button>
         <div className="flex items-center gap-1.5 bg-orange-500/10 border border-orange-500/20 rounded-lg px-2.5 py-1">
           <Flame size={13} className="text-orange-400" />
           <span className="text-xs font-medium text-orange-300">{streak} {streak === 1 ? 'dia' : 'dias'}</span>
