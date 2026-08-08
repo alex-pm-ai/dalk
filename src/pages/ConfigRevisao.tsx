@@ -1,13 +1,58 @@
-import { useState } from 'react';
-import { RotateCcw, Save } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { RotateCcw, Save, Calendar, Check, Link2, Loader2 } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { DEFAULT_CONFIG } from '../utils/algoritmoRevisao';
+import { api, ApiError } from '../lib/api';
 import type { ConfigAlgoritmo } from '../types';
+
+interface GoogleStatus {
+  conectado: boolean;
+  email?: string;
+}
 
 export function ConfigRevisao() {
   const { configAlgoritmo, setConfigAlgoritmo } = useStore();
   const [config, setConfig] = useState<ConfigAlgoritmo>(configAlgoritmo);
   const [saved, setSaved] = useState(false);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [googleStatus, setGoogleStatus] = useState<GoogleStatus | null>(null);
+  const [googleLoading, setGoogleLoading] = useState(false);
+  const [googleErro, setGoogleErro] = useState('');
+  const googleResultado = searchParams.get('google'); // 'conectado' | 'erro' | null
+
+  useEffect(() => {
+    api.get<GoogleStatus>('/app/google/status').then(setGoogleStatus).catch(() => setGoogleStatus({ conectado: false }));
+  }, []);
+
+  useEffect(() => {
+    if (!googleResultado) return;
+    const t = setTimeout(() => setSearchParams({}, { replace: true }), 4000);
+    return () => clearTimeout(t);
+  }, [googleResultado, setSearchParams]);
+
+  async function conectarGoogle() {
+    setGoogleLoading(true);
+    setGoogleErro('');
+    try {
+      const { url } = await api.get<{ url: string }>('/app/google/connect');
+      window.location.href = url;
+    } catch (e) {
+      setGoogleErro(e instanceof ApiError ? e.message : 'Não foi possível conectar. Tente novamente.');
+      setGoogleLoading(false);
+    }
+  }
+
+  async function desconectarGoogle() {
+    setGoogleLoading(true);
+    try {
+      await api.post('/app/google/disconnect');
+      setGoogleStatus({ conectado: false });
+    } finally {
+      setGoogleLoading(false);
+    }
+  }
 
   function updateDias(idx: number, dias: number) {
     setConfig(c => ({
@@ -51,7 +96,7 @@ export function ConfigRevisao() {
             className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg font-medium transition-colors ${
               saved
                 ? 'bg-green-600 text-white'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'bg-primary hover:bg-primary/90 text-primary-foreground'
             }`}
           >
             <Save size={14} />
@@ -80,7 +125,7 @@ export function ConfigRevisao() {
                   max="365"
                   value={faixa.dias}
                   onChange={e => updateDias(idx, Math.max(1, Number(e.target.value)))}
-                  className="w-16 bg-[#0d1117] border border-card-border rounded-lg px-2 py-1.5 text-sm text-white text-center focus:outline-none focus:border-blue-500"
+                  className="w-16 bg-muted border border-card-border rounded-lg px-2 py-1.5 text-sm text-white text-center focus:outline-none focus:border-primary"
                 />
                 <span className="text-xs text-gray-500">DIAS</span>
               </div>
@@ -130,6 +175,60 @@ export function ConfigRevisao() {
             <p>Conteúdo bem dominado fica mais tempo sem revisão, liberando tempo para focar nas áreas que precisam de atenção.</p>
           </div>
         </div>
+      </div>
+
+      {/* Integração com Google Agenda */}
+      <div className="bg-card border border-card-border rounded-xl p-5">
+        <h3 className="text-sm font-medium text-white mb-1 flex items-center gap-2">
+          <Calendar size={15} className="text-primary" />
+          Integrações
+        </h3>
+        <p className="text-xs text-gray-500 mb-4">
+          Conecte sua Google Agenda para receber automaticamente as revisões cadastradas num calendário próprio ("Mindfast"), separado da sua agenda pessoal.
+        </p>
+
+        {googleResultado === 'conectado' && (
+          <div className="flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-lg px-3 py-2 text-xs text-green-400 mb-3">
+            <Check size={13} /> Google Agenda conectada com sucesso!
+          </div>
+        )}
+        {googleResultado === 'erro' && (
+          <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2 text-xs text-red-400 mb-3">
+            Não foi possível conectar sua Google Agenda. Tente novamente.
+          </div>
+        )}
+        {googleErro && (
+          <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2 text-xs text-red-400 mb-3">
+            {googleErro}
+          </div>
+        )}
+
+        {googleStatus === null ? (
+          <p className="text-xs text-gray-500">Verificando conexão...</p>
+        ) : googleStatus.conectado ? (
+          <div className="flex items-center justify-between bg-muted border border-card-border rounded-lg px-3 py-2.5">
+            <div className="flex items-center gap-2 text-sm text-gray-300">
+              <Check size={14} className="text-green-400" />
+              Conectado como <span className="font-medium text-white">{googleStatus.email}</span>
+            </div>
+            <button
+              onClick={desconectarGoogle}
+              disabled={googleLoading}
+              className="text-xs text-gray-400 hover:text-red-400 transition-colors disabled:opacity-50"
+            >
+              {googleLoading ? 'Desconectando...' : 'Desconectar'}
+            </button>
+          </div>
+        ) : (
+          <button
+            onClick={conectarGoogle}
+            disabled={googleLoading}
+            className="flex items-center gap-2 bg-primary hover:bg-primary/90 disabled:opacity-60 text-primary-foreground text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+          >
+            {googleLoading ? <Loader2 size={14} className="animate-spin" /> : <Link2 size={14} />}
+            Conectar Google Agenda
+          </button>
+        )}
       </div>
     </div>
   );

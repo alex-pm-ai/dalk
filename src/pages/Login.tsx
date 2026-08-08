@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Zap } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { ApiError } from '../lib/api';
+import { Logo } from '../components/ui/Logo';
 
 export function Login() {
   const login = useAuthStore((s) => s.login);
@@ -30,13 +30,10 @@ export function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0a0c14] px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
-        <div className="flex items-center justify-center gap-2 mb-8">
-          <div className="w-9 h-9 rounded-lg bg-blue-600 flex items-center justify-center">
-            <Zap size={18} className="text-white" />
-          </div>
-          <span className="font-bold text-white text-2xl tracking-wide">DALK</span>
+        <div className="flex items-center justify-center mb-8">
+          <Logo size="lg" />
         </div>
 
         <div className="bg-card border border-card-border rounded-2xl p-6">
@@ -57,7 +54,7 @@ export function Login() {
                   value={nome}
                   onChange={(e) => setNome(e.target.value)}
                   required
-                  className="w-full bg-[#0d1117] border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500"
+                  className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
                 />
               </div>
             )}
@@ -69,7 +66,7 @@ export function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-[#0d1117] border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
               />
             </div>
 
@@ -81,7 +78,7 @@ export function Login() {
                 onChange={(e) => setSenha(e.target.value)}
                 required
                 minLength={6}
-                className="w-full bg-[#0d1117] border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
               />
             </div>
 
@@ -91,7 +88,7 @@ export function Login() {
                 <select
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value)}
-                  className="w-full bg-[#0d1117] border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500"
+                  className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
                 >
                   <option value="R1">R1 (1º ano)</option>
                   <option value="R2">R2 (2º ano)</option>
@@ -110,7 +107,7 @@ export function Login() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 text-white text-sm font-medium transition-colors"
+              className="w-full py-2.5 rounded-lg bg-primary hover:bg-primary/90 disabled:bg-gray-700 text-primary-foreground text-sm font-medium transition-colors"
             >
               {loading ? 'Aguarde...' : modo === 'login' ? 'Entrar' : 'Criar conta'}
             </button>
@@ -122,7 +119,7 @@ export function Login() {
                 setModo(modo === 'login' ? 'register' : 'login');
                 setErro('');
               }}
-              className="text-xs text-gray-500 hover:text-blue-400 transition-colors"
+              className="text-xs text-gray-500 hover:text-primary transition-colors"
             >
               {modo === 'login'
                 ? 'Não tem conta? Cadastre-se'

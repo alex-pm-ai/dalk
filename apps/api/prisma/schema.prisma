@@ -28,6 +28,23 @@ model Usuario {
   metaSemanal     MetaSemanal?
   assinatura      Assinatura?
   pagamentos      Pagamento[]
+  googleAccount   GoogleAccount?
+}
+
+// ──────────────────────────────────────────────
+// Integração com Google Agenda
+// ──────────────────────────────────────────────
+
+model GoogleAccount {
+  id           String   @id @default(cuid())
+  usuarioId    String   @unique
+  googleEmail  String
+  refreshToken String
+  calendarId   String // calendário secundário "Mindfast" criado na conta do usuário
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 }
 
 model RefreshToken {
@@ -119,6 +136,7 @@ model Revisao {
   status                  String // Pendente | Concluída | Atrasada
   proximaRevisao          String?
   gerarRevisaoInteligente Boolean  @default(true)
+  googleEventId           String?
   createdAt               DateTime @default(now())
 
   usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
