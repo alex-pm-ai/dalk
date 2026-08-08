@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard, BarChart2, History, FileText,
-  Calendar, Target, CheckSquare, Settings, Plus, LogOut,
+  Calendar, Target, CheckSquare, Settings, Plus, LogOut, X,
 } from 'lucide-react';
 import { useAuthStore } from '../../store/authStore';
 import { Logo } from '../ui/Logo';
@@ -18,41 +18,60 @@ const nav = [
 ];
 
 interface Props {
+  open: boolean;
+  onClose: () => void;
   onAddRevisao: () => void;
   onAddFlashcard: () => void;
 }
 
-export function Sidebar({ onAddRevisao, onAddFlashcard }: Props) {
+export function Sidebar({ open, onClose, onAddRevisao, onAddFlashcard }: Props) {
   const usuario = useAuthStore(s => s.usuario);
   const logout = useAuthStore(s => s.logout);
 
   return (
-    <aside className="fixed top-0 left-0 h-screen w-52 bg-muted border-r border-card-border flex flex-col z-30">
-      {/* Logo */}
-      <div className="flex items-center px-4 py-5 border-b border-card-border">
-        <Logo size="sm" />
-      </div>
+    <>
+      {/* Fundo escurecido — só em mobile, quando a gaveta está aberta */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-black/60 z-30 md:hidden"
+          onClick={onClose}
+        />
+      )}
 
-      {/* Nav */}
-      <nav className="flex-1 py-3 overflow-y-auto">
-        {nav.map(({ to, icon: Icon, label }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === '/'}
-            className={({ isActive }) =>
-              `flex items-center gap-2.5 px-4 py-2 mx-2 rounded-lg text-sm transition-colors ${
-                isActive
-                  ? 'bg-primary/20 text-primary font-medium'
-                  : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
-              }`
-            }
-          >
-            <Icon size={16} />
-            <span className="truncate">{label}</span>
-          </NavLink>
-        ))}
-      </nav>
+      <aside
+        className={`fixed top-0 left-0 h-screen w-52 bg-muted border-r border-card-border flex flex-col z-40
+          transform transition-transform duration-200 md:translate-x-0
+          ${open ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        {/* Logo */}
+        <div className="flex items-center justify-between px-4 py-5 border-b border-card-border">
+          <Logo size="sm" />
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-300 md:hidden" title="Fechar menu">
+            <X size={18} />
+          </button>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 py-3 overflow-y-auto">
+          {nav.map(({ to, icon: Icon, label }) => (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === '/'}
+              onClick={onClose}
+              className={({ isActive }) =>
+                `flex items-center gap-2.5 px-4 py-2 mx-2 rounded-lg text-sm transition-colors ${
+                  isActive
+                    ? 'bg-primary/20 text-primary font-medium'
+                    : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'
+                }`
+              }
+            >
+              <Icon size={16} />
+              <span className="truncate">{label}</span>
+            </NavLink>
+          ))}
+        </nav>
 
       {/* Buttons */}
       <div className="px-3 pb-2 space-y-2">
@@ -91,6 +110,7 @@ export function Sidebar({ onAddRevisao, onAddFlashcard }: Props) {
           <LogOut size={14} />
         </button>
       </div>
-    </aside>
+      </aside>
+    </>
   );
 }

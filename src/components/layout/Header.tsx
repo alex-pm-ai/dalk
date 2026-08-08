@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { BookOpen, Bell, Flame } from 'lucide-react';
+import { BookOpen, Bell, Flame, Menu } from 'lucide-react';
 import { useStore } from '../../store/useStore';
 import { today, daysAgo } from '../../utils/dateUtils';
 
@@ -14,7 +14,11 @@ const BREADCRUMBS: Record<string, string> = {
   '/config':      'Dashboard / Configuração',
 };
 
-export function Header() {
+interface Props {
+  onMenuClick: () => void;
+}
+
+export function Header({ onMenuClick }: Props) {
   const { pathname } = useLocation();
   const revisoes = useStore(s => s.revisoes);
 
@@ -34,12 +38,30 @@ export function Header() {
 
   return (
     <header className="h-12 flex items-center justify-between px-6 border-b border-card-border bg-background">
-      <span className="text-sm text-gray-400">{BREADCRUMBS[pathname] ?? 'Dashboard'}</span>
       <div className="flex items-center gap-3">
-        <button className="text-gray-500 hover:text-gray-300 transition-colors">
+        <button
+          onClick={onMenuClick}
+          className="text-gray-400 hover:text-gray-200 transition-colors md:hidden"
+          aria-label="Abrir menu"
+          title="Abrir menu"
+        >
+          <Menu size={18} />
+        </button>
+        <span className="text-sm text-gray-400">{BREADCRUMBS[pathname] ?? 'Dashboard'}</span>
+      </div>
+      <div className="flex items-center gap-3">
+        <button
+          className="text-gray-500 hover:text-gray-300 transition-colors"
+          aria-label="Guia de estudos"
+          title="Guia de estudos"
+        >
           <BookOpen size={16} />
         </button>
-        <button className="text-gray-500 hover:text-gray-300 transition-colors">
+        <button
+          className="text-gray-500 hover:text-gray-300 transition-colors"
+          aria-label="Notificações"
+          title="Notificações"
+        >
           <Bell size={16} />
         </button>
         <div className="flex items-center gap-1.5 bg-orange-500/10 border border-orange-500/20 rounded-lg px-2.5 py-1">

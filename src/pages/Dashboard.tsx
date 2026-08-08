@@ -135,13 +135,13 @@ export function Dashboard() {
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm font-medium text-white">Calendário Semanal</p>
           <div className="flex items-center gap-2">
-            <button onClick={() => setWeekOffset(w => w - 1)} className="p-1 hover:bg-white/5 rounded">
+            <button onClick={() => setWeekOffset(w => w - 1)} className="p-1 hover:bg-white/5 rounded" aria-label="Semana anterior" title="Semana anterior">
               <ChevronLeft size={16} className="text-gray-400" />
             </button>
             <span className="text-xs text-gray-400">
               {formatDateShort(weekDays[0])} - {formatDateShort(weekDays[6])}
             </span>
-            <button onClick={() => setWeekOffset(w => w + 1)} className="p-1 hover:bg-white/5 rounded">
+            <button onClick={() => setWeekOffset(w => w + 1)} className="p-1 hover:bg-white/5 rounded" aria-label="Próxima semana" title="Próxima semana">
               <ChevronRight size={16} className="text-gray-400" />
             </button>
           </div>
