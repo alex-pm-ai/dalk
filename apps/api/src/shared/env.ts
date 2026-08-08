@@ -11,6 +11,9 @@ const envSchema = z.object({
   WEB_ORIGIN: z.string().default('http://localhost:5173'),
   PAYMENT_PROVIDER: z.enum(['mock', 'asaas', 'stripe', 'mercadopago']).default('mock'),
   PAYMENT_WEBHOOK_SECRET: z.string().default('segredo-do-webhook'),
+  GOOGLE_CLIENT_ID: z.string().default(''),
+  GOOGLE_CLIENT_SECRET: z.string().default(''),
+  GOOGLE_REDIRECT_URI: z.string().default('http://localhost:3333/google/callback'),
 });
 
 const parsed = envSchema.safeParse(process.env);

@@ -12,6 +12,7 @@ import { simuladosRoutes } from './modules/simulados/simulados.routes.js';
 import { tarefasRoutes } from './modules/tarefas/tarefas.routes.js';
 import { configRoutes } from './modules/config/config.routes.js';
 import { metaRoutes } from './modules/meta/meta.routes.js';
+import { googleRoutes, googleCallbackRoutes } from './modules/google/google.routes.js';
 
 export async function buildApp() {
   const app = Fastify({
@@ -56,6 +57,9 @@ export async function buildApp() {
   // Webhook do provedor — público (validação por HMAC dentro do gateway)
   await app.register(webhookRoutes, { prefix: '/billing' });
 
+  // Callback do OAuth do Google — público (redirect de navegador, sem JWT)
+  await app.register(googleCallbackRoutes, { prefix: '/google' });
+
   // ── Rotas de CONTEÚDO protegidas pelo gate de assinatura ──
   await app.register(
     async (content) => {
@@ -73,6 +77,7 @@ export async function buildApp() {
       await content.register(tarefasRoutes, { prefix: '/tarefas' });
       await content.register(configRoutes, { prefix: '/config' });
       await content.register(metaRoutes, { prefix: '/meta' });
+      await content.register(googleRoutes, { prefix: '/google' });
     },
     { prefix: '/app' }
   );

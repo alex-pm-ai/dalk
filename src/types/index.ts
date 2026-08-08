@@ -24,6 +24,7 @@ export interface Revisao {
   status: StatusRevisao;
   proximaRevisao: string | null;
   gerarRevisaoInteligente: boolean;
+  googleEventId?: string | null;
   createdAt: string;
 }
 

@@ -2,6 +2,7 @@ import { prisma } from '../../shared/prisma.js';
 import { NotFoundError } from '../../shared/errors.js';
 import { calcularAproveitamento, calcularProximaRevisao, DEFAULT_FAIXAS, type Faixa } from '../../domain/algoritmo.js';
 import { today, daysFromNow, isPast } from '../../domain/date.js';
+import * as googleCalendar from '../google/google.service.js';
 
 export interface CriarRevisaoInput {
   tipo: string;
@@ -29,19 +30,33 @@ export function listar(usuarioId: string) {
   });
 }
 
-export function criar(usuarioId: string, input: CriarRevisaoInput) {
-  return prisma.revisao.create({ data: { ...input, usuarioId } });
+export async function criar(usuarioId: string, input: CriarRevisaoInput) {
+  const revisao = await prisma.revisao.create({ data: { ...input, usuarioId } });
+  const googleEventId = await googleCalendar.criarEvento(usuarioId, revisao);
+  if (!googleEventId) return revisao;
+  return prisma.revisao.update({ where: { id: revisao.id }, data: { googleEventId } });
 }
 
 export async function atualizar(usuarioId: string, id: string, data: Partial<CriarRevisaoInput>) {
   const existe = await prisma.revisao.findFirst({ where: { id, usuarioId } });
   if (!existe) throw new NotFoundError('Revisão não encontrada');
-  return prisma.revisao.update({ where: { id }, data });
+  const atualizada = await prisma.revisao.update({ where: { id }, data });
+
+  if (atualizada.googleEventId) {
+    await googleCalendar.atualizarEvento(usuarioId, atualizada);
+    return atualizada;
+  }
+  // Revisão criada antes de o usuário conectar o Google → cria o evento agora.
+  const googleEventId = await googleCalendar.criarEvento(usuarioId, atualizada);
+  if (!googleEventId) return atualizada;
+  return prisma.revisao.update({ where: { id }, data: { googleEventId } });
 }
 
 export async function remover(usuarioId: string, id: string) {
-  const r = await prisma.revisao.deleteMany({ where: { id, usuarioId } });
-  if (r.count === 0) throw new NotFoundError('Revisão não encontrada');
+  const existe = await prisma.revisao.findFirst({ where: { id, usuarioId } });
+  if (!existe) throw new NotFoundError('Revisão não encontrada');
+  await prisma.revisao.delete({ where: { id } });
+  await googleCalendar.removerEvento(usuarioId, existe.googleEventId);
 }
 
 /** Conclui uma revisão pendente e (se inteligente) agenda a próxima automaticamente. */
@@ -67,8 +82,10 @@ export async function concluir(
       tempoEstudo: payload.tempoEstudo,
       dataRevisao: today(),
       proximaRevisao: proxima,
+      googleEventId: null, // revisão concluída não fica mais agendada no Google
     },
   });
+  await googleCalendar.removerEvento(usuarioId, rev.googleEventId);
 
   let novaPendente = null;
   if (rev.gerarRevisaoInteligente) {
@@ -88,6 +105,10 @@ export async function concluir(
         gerarRevisaoInteligente: true,
       },
     });
+    const googleEventId = await googleCalendar.criarEvento(usuarioId, novaPendente);
+    if (googleEventId) {
+      novaPendente = await prisma.revisao.update({ where: { id: novaPendente.id }, data: { googleEventId } });
+    }
   }
 
   return { concluida, novaPendente };
@@ -102,7 +123,7 @@ export async function redistribuir(usuarioId: string) {
   if (atrasadas.length === 0) return listar(usuarioId);
 
   const perDay = Math.ceil(atrasadas.length / 7);
-  await prisma.$transaction(
+  const atualizadas = await prisma.$transaction(
     atrasadas.map((r, idx) => {
       const daysOffset = Math.floor(idx / perDay) + 1;
       return prisma.revisao.update({
@@ -111,5 +132,10 @@ export async function redistribuir(usuarioId: string) {
       });
     })
   );
+
+  for (const r of atualizadas) {
+    if (r.googleEventId) await googleCalendar.atualizarEvento(usuarioId, r);
+  }
+
   return listar(usuarioId);
 }
