@@ -32,7 +32,7 @@ const FAQ = [
   },
   {
     pergunta: 'Funciona para quem já está na residência ou só para quem vai prestar a prova?',
-    resposta: 'Funciona para os dois casos. Ao criar sua conta você escolhe seu nível (pré-residência, R1, R2 ou R3), e a plataforma se adapta à sua fase.',
+    resposta: 'Funciona para os dois casos — a organização do cronograma e o acompanhamento de desempenho servem tanto pra quem está se preparando pra prova quanto pra quem já está na residência.',
   },
   {
     pergunta: 'Quais formas de pagamento são aceitas?',

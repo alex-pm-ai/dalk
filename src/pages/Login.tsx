@@ -19,7 +19,6 @@ export function Login() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [tipo, setTipo] = useState('R1');
   const [erro, setErro] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -29,7 +28,7 @@ export function Login() {
     setLoading(true);
     try {
       if (modo === 'login') await login(email, senha);
-      else await register(nome, email, senha, tipo);
+      else await register(nome, email, senha);
     } catch (err) {
       setErro(err instanceof ApiError ? err.message : 'Não foi possível conectar ao servidor.');
     } finally {
@@ -93,22 +92,6 @@ export function Login() {
                 className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
               />
             </div>
-
-            {modo === 'register' && (
-              <div>
-                <label className="block text-xs text-gray-400 mb-1.5">Nível</label>
-                <select
-                  value={tipo}
-                  onChange={(e) => setTipo(e.target.value)}
-                  className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
-                >
-                  <option value="R1">R1 (1º ano)</option>
-                  <option value="R2">R2 (2º ano)</option>
-                  <option value="R3">R3 (3º ano)</option>
-                  <option value="Pré">Pré-residência</option>
-                </select>
-              </div>
-            )}
 
             {erro && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2 text-xs text-red-400">
