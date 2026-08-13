@@ -4,14 +4,14 @@ import { useStore } from '../../store/useStore';
 import { today, daysAgo } from '../../utils/dateUtils';
 
 const BREADCRUMBS: Record<string, string> = {
-  '/':            'Dashboard / Visão Geral',
-  '/desempenho':  'Dashboard / Desempenho',
-  '/historico':   'Dashboard / Histórico',
-  '/simulados':   'Dashboard / Simulados',
-  '/calendario':  'Dashboard / Calendário',
-  '/foco-prova':  'Dashboard / Foco Prova',
-  '/todo':        'Dashboard / Foco & Tarefas',
-  '/config':      'Dashboard / Configuração',
+  '/app':              'Dashboard / Visão Geral',
+  '/app/desempenho':   'Dashboard / Desempenho',
+  '/app/historico':    'Dashboard / Histórico',
+  '/app/simulados':    'Dashboard / Simulados',
+  '/app/calendario':   'Dashboard / Calendário',
+  '/app/foco-prova':   'Dashboard / Foco Prova',
+  '/app/todo':         'Dashboard / Foco & Tarefas',
+  '/app/config':       'Dashboard / Configuração',
 };
 
 export function Header() {

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { ApiError } from '../lib/api';
 import { Logo } from '../components/ui/Logo';
@@ -6,8 +7,15 @@ import { Logo } from '../components/ui/Logo';
 export function Login() {
   const login = useAuthStore((s) => s.login);
   const register = useAuthStore((s) => s.register);
+  const accessToken = useAuthStore((s) => s.accessToken);
 
-  const [modo, setModo] = useState<'login' | 'register'>('login');
+  const [searchParams] = useSearchParams();
+  const planoParam = searchParams.get('plano');
+  const destinoAutenticado = planoParam ? `/app?plano=${planoParam}` : '/app';
+
+  const [modo, setModo] = useState<'login' | 'register'>(
+    searchParams.get('modo') === 'register' ? 'register' : 'login'
+  );
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -29,11 +37,15 @@ export function Login() {
     }
   }
 
+  if (accessToken) return <Navigate to={destinoAutenticado} replace />;
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
         <div className="flex items-center justify-center mb-8">
-          <Logo size="lg" />
+          <Link to="/">
+            <Logo size="lg" />
+          </Link>
         </div>
 
         <div className="bg-card border border-card-border rounded-2xl p-6">
