@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import { Plus, Trash2, Trash, Play, Pause, RotateCcw, Settings } from 'lucide-react';
+import { Plus, Trash2, Trash, Play, Pause, RotateCcw, Settings, ListChecks } from 'lucide-react';
 import { useStore } from '../store/useStore';
+import { Checkbox } from '../components/ui/Checkbox';
 
 type PomodoroMode = 'Pomodoro' | 'Pausa Curta' | 'Pausa Longa';
 
@@ -76,10 +77,21 @@ export function TodoPomodoro() {
         <div className="col-span-3 bg-card border border-card-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-white flex items-center gap-2">
-              <span className="text-primary">☑</span> Tarefas
+              <ListChecks size={15} className="text-primary" />
+              Tarefas
+              {pending.length > 0 && (
+                <span className="text-xs font-normal text-gray-500">
+                  {pending.length} pendente{pending.length > 1 ? 's' : ''}
+                </span>
+              )}
             </h3>
             {done.length > 0 && (
-              <button onClick={clearTarefasConcluidas} className="text-gray-600 hover:text-red-400 transition-colors">
+              <button
+                onClick={clearTarefasConcluidas}
+                aria-label="Limpar tarefas concluídas"
+                title="Limpar tarefas concluídas"
+                className="text-gray-600 hover:text-red-400 transition-colors"
+              >
                 <Trash size={14} />
               </button>
             )}
@@ -100,28 +112,32 @@ export function TodoPomodoro() {
           <div className="space-y-1.5 max-h-96 overflow-y-auto">
             {pending.map(t => (
               <div key={t.id} className="flex items-center gap-2.5 group px-3 py-2 rounded-lg hover:bg-white/[0.03] transition-colors">
-                <input
-                  type="checkbox"
-                  checked={false}
-                  onChange={() => toggleTarefa(t.id)}
-                  className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-primary focus:ring-0 flex-shrink-0 cursor-pointer"
-                />
-                <span className="flex-1 text-sm text-gray-200">{t.texto}</span>
-                <button onClick={() => deleteTarefa(t.id)} className="opacity-0 group-hover:opacity-100 text-gray-600 hover:text-red-400 transition-all">
+                <label className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer">
+                  <Checkbox checked={false} onChange={() => toggleTarefa(t.id)} ariaLabel={t.texto} />
+                  <span className="text-sm text-gray-200 break-words">{t.texto}</span>
+                </label>
+                <button
+                  onClick={() => deleteTarefa(t.id)}
+                  aria-label={`Excluir tarefa ${t.texto}`}
+                  title="Excluir tarefa"
+                  className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 text-gray-600 hover:text-red-400 transition-all flex-shrink-0"
+                >
                   <Trash2 size={12} />
                 </button>
               </div>
             ))}
             {done.map(t => (
-              <div key={t.id} className="flex items-center gap-2.5 group px-3 py-2 rounded-lg opacity-50">
-                <input
-                  type="checkbox"
-                  checked={true}
-                  onChange={() => toggleTarefa(t.id)}
-                  className="w-4 h-4 rounded border-gray-600 bg-primary text-primary focus:ring-0 flex-shrink-0 cursor-pointer"
-                />
-                <span className="flex-1 text-sm text-gray-500 line-through">{t.texto}</span>
-                <button onClick={() => deleteTarefa(t.id)} className="opacity-0 group-hover:opacity-100 text-gray-600 hover:text-red-400 transition-all">
+              <div key={t.id} className="flex items-center gap-2.5 group px-3 py-2 rounded-lg hover:bg-white/[0.03] transition-colors">
+                <label className="flex items-center gap-2.5 flex-1 min-w-0 cursor-pointer">
+                  <Checkbox checked onChange={() => toggleTarefa(t.id)} ariaLabel={t.texto} />
+                  <span className="text-sm text-gray-500 line-through break-words">{t.texto}</span>
+                </label>
+                <button
+                  onClick={() => deleteTarefa(t.id)}
+                  aria-label={`Excluir tarefa ${t.texto}`}
+                  title="Excluir tarefa"
+                  className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 text-gray-600 hover:text-red-400 transition-all flex-shrink-0"
+                >
                   <Trash2 size={12} />
                 </button>
               </div>
