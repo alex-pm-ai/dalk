@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 import { api } from '../lib/api';
 import { DEFAULT_CONFIG } from '../utils/algoritmoRevisao';
-import type { Revisao, Simulado, Tarefa, ConfigAlgoritmo } from '../types';
+import type { Revisao, Simulado, Tarefa, Conteudo, ConfigAlgoritmo, GrandeArea } from '../types';
 
 interface DataState {
   carregado: boolean;
   revisoes: Revisao[];
   simulados: Simulado[];
   tarefas: Tarefa[];
+  conteudos: Conteudo[];
   configAlgoritmo: ConfigAlgoritmo;
   metaSemanal: number;
 
@@ -25,6 +26,8 @@ interface DataState {
   toggleTarefa: (id: string) => Promise<void>;
   deleteTarefa: (id: string) => Promise<void>;
   clearTarefasConcluidas: () => Promise<void>;
+  addConteudo: (grandeArea: GrandeArea, subArea: string) => Promise<void>;
+  deleteConteudo: (id: string) => Promise<void>;
   setConfigAlgoritmo: (c: ConfigAlgoritmo) => Promise<void>;
   setMetaSemanal: (m: number) => Promise<void>;
 }
@@ -34,14 +37,16 @@ export const useStore = create<DataState>((set, get) => ({
   revisoes: [],
   simulados: [],
   tarefas: [],
+  conteudos: [],
   configAlgoritmo: DEFAULT_CONFIG,
   metaSemanal: 150,
 
   carregarTudo: async () => {
-    const [revisoes, simulados, tarefas, config, meta] = await Promise.all([
+    const [revisoes, simulados, tarefas, conteudos, config, meta] = await Promise.all([
       api.get<Revisao[]>('/app/revisoes'),
       api.get<Simulado[]>('/app/simulados'),
       api.get<Tarefa[]>('/app/tarefas'),
+      api.get<Conteudo[]>('/app/conteudos'),
       api.get<{ faixas: ConfigAlgoritmo['faixas'] }>('/app/config'),
       api.get<{ meta: number }>('/app/meta'),
     ]);
@@ -49,6 +54,7 @@ export const useStore = create<DataState>((set, get) => ({
       revisoes,
       simulados,
       tarefas,
+      conteudos,
       configAlgoritmo: { faixas: config.faixas },
       metaSemanal: meta.meta,
       carregado: true,
@@ -61,6 +67,7 @@ export const useStore = create<DataState>((set, get) => ({
       revisoes: [],
       simulados: [],
       tarefas: [],
+      conteudos: [],
       configAlgoritmo: DEFAULT_CONFIG,
       metaSemanal: 150,
     }),
@@ -127,6 +134,16 @@ export const useStore = create<DataState>((set, get) => ({
   clearTarefasConcluidas: async () => {
     await api.del('/app/tarefas/concluidas');
     set((s) => ({ tarefas: s.tarefas.filter((t) => !t.concluida) }));
+  },
+
+  addConteudo: async (grandeArea, subArea) => {
+    const created = await api.post<Conteudo>('/app/conteudos', { grandeArea, subArea });
+    set((s) => ({ conteudos: [...s.conteudos, created] }));
+  },
+
+  deleteConteudo: async (id) => {
+    await api.del(`/app/conteudos/${id}`);
+    set((s) => ({ conteudos: s.conteudos.filter((c) => c.id !== id) }));
   },
 
   setConfigAlgoritmo: async (c) => {

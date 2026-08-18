@@ -28,6 +28,7 @@ model Usuario {
   metaSemanal     MetaSemanal?
   assinatura      Assinatura?
   pagamentos      Pagamento[]
+  conteudos       Conteudo[]
 }
 
 model RefreshToken {
@@ -154,6 +155,20 @@ model Tarefa {
 
   usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
 
+  @@index([usuarioId])
+}
+
+/// Conteúdo cadastrado pelo próprio usuário, somado às sugestões fixas do front.
+model Conteudo {
+  id         String   @id @default(cuid())
+  usuarioId  String
+  grandeArea String
+  subArea    String
+  createdAt  DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@unique([usuarioId, grandeArea, subArea]) // impede duplicado do mesmo usuário
   @@index([usuarioId])
 }
 

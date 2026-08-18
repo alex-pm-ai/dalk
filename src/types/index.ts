@@ -52,6 +52,14 @@ export interface Tarefa {
   createdAt: string;
 }
 
+/** Conteúdo cadastrado pelo próprio usuário (soma-se às sugestões de data/areas.ts). */
+export interface Conteudo {
+  id: string;
+  grandeArea: GrandeArea;
+  subArea: string;
+  createdAt: string;
+}
+
 export interface FaixaAlgoritmo {
   min: number;
   max: number;

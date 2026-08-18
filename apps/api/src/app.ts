@@ -10,6 +10,7 @@ import { billingRoutes, webhookRoutes } from './modules/billing/billing.routes.j
 import { revisoesRoutes } from './modules/revisoes/revisoes.routes.js';
 import { simuladosRoutes } from './modules/simulados/simulados.routes.js';
 import { tarefasRoutes } from './modules/tarefas/tarefas.routes.js';
+import { conteudosRoutes } from './modules/conteudos/conteudos.routes.js';
 import { configRoutes } from './modules/config/config.routes.js';
 import { metaRoutes } from './modules/meta/meta.routes.js';
 
@@ -71,6 +72,7 @@ export async function buildApp() {
       await content.register(revisoesRoutes, { prefix: '/revisoes' });
       await content.register(simuladosRoutes, { prefix: '/simulados' });
       await content.register(tarefasRoutes, { prefix: '/tarefas' });
+      await content.register(conteudosRoutes, { prefix: '/conteudos' });
       await content.register(configRoutes, { prefix: '/config' });
       await content.register(metaRoutes, { prefix: '/meta' });
     },
