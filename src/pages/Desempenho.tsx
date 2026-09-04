@@ -87,7 +87,7 @@ export function Desempenho() {
   const PeriodBtn = ({ p }: { p: Period }) => (
     <button
       onClick={() => setPeriod(p)}
-      className={`px-3 py-1 rounded text-xs font-medium transition-colors ${period === p ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
+      className={`px-3 py-1 rounded text-xs font-medium transition-colors ${period === p ? 'bg-primary text-primary-foreground' : 'text-gray-400 hover:text-white'}`}
     >
       {p}
     </button>
@@ -96,7 +96,7 @@ export function Desempenho() {
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (!active || !payload?.length) return null;
     return (
-      <div className="bg-[#111827] border border-card-border rounded-lg px-3 py-2 text-xs">
+      <div className="bg-card border border-card-border rounded-lg px-3 py-2 text-xs">
         <p className="text-gray-400 mb-1">{label}</p>
         {payload.map((p: any) => (
           <p key={p.name} style={{ color: p.color }}>{p.name}: {p.value}</p>
@@ -138,7 +138,7 @@ export function Desempenho() {
       <div className="grid grid-cols-3 gap-4">
         <StatsCard label="Acurácia Geral" value={`${acuraciaGeral}%`} icon={<BarChart2 size={16} className="text-yellow-400" />} iconBg="bg-yellow-600/20" />
         <StatsCard label="Total de Horas" value={minutesToHours(totalHoras)} icon={<Clock size={16} className="text-purple-400" />} iconBg="bg-purple-600/20" />
-        <StatsCard label="Questões Realizadas" value={totalQuestoes} icon={<CheckSquare size={16} className="text-blue-400" />} />
+        <StatsCard label="Questões Realizadas" value={totalQuestoes} icon={<CheckSquare size={16} className="text-primary" />} />
       </div>
 
       <div className="grid grid-cols-2 gap-4">
@@ -146,7 +146,7 @@ export function Desempenho() {
         <div className="bg-card border border-card-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-white flex items-center gap-2">
-              <span className="text-blue-400">↗</span> Questões Realizadas
+              <span className="text-primary">↗</span> Questões Realizadas
             </p>
             <div className="flex items-center gap-1">
               <PeriodBtn p="Semana" /><PeriodBtn p="Mês" />
@@ -155,11 +155,11 @@ export function Desempenho() {
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={questoesChart}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e2a3b" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.09)" />
               <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Line type="monotone" dataKey="questoes" name="Questões" stroke="#3b82f6" strokeWidth={2} dot={{ fill: '#3b82f6', r: 3 }} />
+              <Line type="monotone" dataKey="questoes" name="Questões" stroke="#bcc829" strokeWidth={2} dot={{ fill: '#bcc829', r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
         </div>
@@ -181,7 +181,7 @@ export function Desempenho() {
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={questoesChart}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1e2a3b" />
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.09)" />
               <XAxis dataKey="label" tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 10, fill: '#6b7280' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} />

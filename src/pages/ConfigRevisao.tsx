@@ -51,7 +51,7 @@ export function ConfigRevisao() {
             className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg font-medium transition-colors ${
               saved
                 ? 'bg-green-600 text-white'
-                : 'bg-blue-600 hover:bg-blue-700 text-white'
+                : 'bg-primary hover:bg-primary/90 text-primary-foreground'
             }`}
           >
             <Save size={14} />
@@ -80,7 +80,7 @@ export function ConfigRevisao() {
                   max="365"
                   value={faixa.dias}
                   onChange={e => updateDias(idx, Math.max(1, Number(e.target.value)))}
-                  className="w-16 bg-[#0d1117] border border-card-border rounded-lg px-2 py-1.5 text-sm text-white text-center focus:outline-none focus:border-blue-500"
+                  className="w-16 bg-muted border border-card-border rounded-lg px-2 py-1.5 text-sm text-white text-center focus:outline-none focus:border-primary"
                 />
                 <span className="text-xs text-gray-500">DIAS</span>
               </div>

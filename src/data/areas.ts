@@ -17,7 +17,7 @@ export const SUB_AREAS: Record<GrandeArea, string[]> = {
     'Transtornos alimentares', 'Transtornos do neurodesenvolvimento', 'Transtorno de personalidade',
     'RAPS / CAPS', 'SUS', 'Transtorno bipolar', 'Revisão ENAMED', 'Emergências psiquiátricas',
     'Hipertensão Arterial Sistêmica', 'DPOC', 'Derrame pleural', 'Osmolaridade e Natremia',
-    'Hiponatremia', 'TEPT', 'Transtorno de somatização', 'Transtorno bipolar',
+    'Hiponatremia', 'TEPT', 'Transtorno de somatização',
     'Insuficiência cardíaca', 'Arritmias', 'Pneumonia', 'IVAS', 'Bronquiolite',
     'Asma', 'Hepatites', 'Doença de Crohn', 'Colite ulcerativa', 'Diabetes mellitus',
     'Hipotireoidismo', 'Hipertireoidismo', 'Anemia', 'Leucemia', 'Linfoma',

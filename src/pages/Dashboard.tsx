@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TrendingUp, CheckCircle2, Clock, AlertTriangle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { TrendingUp, CheckCircle2, Clock, AlertTriangle, RefreshCw, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { StatsCard } from '../components/ui/StatsCard';
 import { today, getWeekDays, DAY_NAMES_SHORT, formatDateShort, minutesToHours, startOfWeek, endOfWeek } from '../utils/dateUtils';
@@ -47,6 +47,17 @@ export function Dashboard() {
         <p className="text-sm text-gray-500 mt-0.5">Aqui está um resumo do seu progresso hoje.</p>
       </div>
 
+      {/* Orientação para quem ainda não tem nenhuma revisão cadastrada */}
+      {revisoes.length === 0 && (
+        <div className="flex items-start gap-2.5 bg-primary/10 border border-primary/30 rounded-xl px-4 py-3">
+          <Sparkles size={16} className="text-primary mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-primary/90">
+            Você ainda não tem nenhuma revisão cadastrada. Use o botão{' '}
+            <span className="font-medium">"Adicionar Revisão"</span> no menu lateral para começar.
+          </p>
+        </div>
+      )}
+
       {/* Alert atrasadas */}
       {atrasadas.length > 0 && (
         <div className="flex items-start justify-between bg-orange-500/10 border border-orange-500/30 rounded-xl px-4 py-3">
@@ -80,7 +91,7 @@ export function Dashboard() {
           value={questoesSemana}
           sub="Continue o bom trabalho!"
           subColor="text-gray-500"
-          icon={<TrendingUp size={16} className="text-blue-400" />}
+          icon={<TrendingUp size={16} className="text-primary" />}
         />
         <StatsCard
           label="Taxa de acerto na semana"
@@ -110,12 +121,12 @@ export function Dashboard() {
                 type="number"
                 value={metaInput}
                 onChange={e => setMetaInput(e.target.value)}
-                className="w-24 bg-[#0d1117] border border-card-border rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-blue-500"
+                className="w-24 bg-muted border border-card-border rounded px-2 py-1 text-sm text-white focus:outline-none focus:border-primary"
               />
-              <button onClick={saveMeta} className="text-xs text-blue-400 hover:text-blue-300">Salvar</button>
+              <button onClick={saveMeta} className="text-xs text-primary hover:text-primary">Salvar</button>
             </div>
           ) : (
-            <button onClick={() => setEditMeta(true)} className="text-xs text-blue-400 hover:text-blue-300">Definir Meta</button>
+            <button onClick={() => setEditMeta(true)} className="text-xs text-primary hover:text-primary">Definir Meta</button>
           )}
         </div>
         <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
@@ -135,13 +146,13 @@ export function Dashboard() {
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm font-medium text-white">Calendário Semanal</p>
           <div className="flex items-center gap-2">
-            <button onClick={() => setWeekOffset(w => w - 1)} className="p-1 hover:bg-white/5 rounded">
+            <button onClick={() => setWeekOffset(w => w - 1)} className="p-1 hover:bg-white/5 rounded" aria-label="Semana anterior" title="Semana anterior">
               <ChevronLeft size={16} className="text-gray-400" />
             </button>
             <span className="text-xs text-gray-400">
               {formatDateShort(weekDays[0])} - {formatDateShort(weekDays[6])}
             </span>
-            <button onClick={() => setWeekOffset(w => w + 1)} className="p-1 hover:bg-white/5 rounded">
+            <button onClick={() => setWeekOffset(w => w + 1)} className="p-1 hover:bg-white/5 rounded" aria-label="Próxima semana" title="Próxima semana">
               <ChevronRight size={16} className="text-gray-400" />
             </button>
           </div>
@@ -155,8 +166,8 @@ export function Dashboard() {
             const dayRevs = revisoes.filter(r => r.dataRevisao === date);
             const isToday = date === today();
             return (
-              <div key={date} className={`min-h-24 rounded-lg border p-1.5 ${isToday ? 'border-blue-500/50 bg-blue-500/5' : 'border-card-border'}`}>
-                <p className={`text-xs font-medium mb-1 text-center w-6 h-6 flex items-center justify-center rounded-full mx-auto ${isToday ? 'bg-blue-600 text-white' : 'text-gray-400'}`}>
+              <div key={date} className={`min-h-24 rounded-lg border p-1.5 ${isToday ? 'border-primary/50 bg-primary/5' : 'border-card-border'}`}>
+                <p className={`text-xs font-medium mb-1 text-center w-6 h-6 flex items-center justify-center rounded-full mx-auto ${isToday ? 'bg-primary text-primary-foreground' : 'text-gray-400'}`}>
                   {parseInt(date.split('-')[2])}
                 </p>
                 <div className="space-y-0.5">

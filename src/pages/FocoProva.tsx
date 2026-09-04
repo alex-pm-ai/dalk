@@ -82,7 +82,7 @@ export function FocoProva() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-xl font-bold text-white flex items-center gap-2">
-            <Target size={20} className="text-blue-400" />
+            <Target size={20} className="text-primary" />
             Planejamento Foco Prova
           </h2>
           <p className="text-sm text-gray-500 mt-1 max-w-2xl">
@@ -118,7 +118,7 @@ export function FocoProva() {
               value={dataProva}
               onChange={e => setDataProva(e.target.value)}
               min={today()}
-              className="w-full bg-[#0d1117] border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500"
+              className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
             />
           </div>
           <div>
@@ -128,9 +128,9 @@ export function FocoProva() {
                 type="number" min="1" max="10"
                 value={frequencia}
                 onChange={e => setFrequencia(Number(e.target.value))}
-                className="flex-1 bg-[#0d1117] border border-card-border rounded-l-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500"
+                className="flex-1 bg-muted border border-card-border rounded-l-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
               />
-              <span className="bg-[#1a2035] border border-l-0 border-card-border rounded-r-lg px-3 py-2.5 text-xs text-gray-500 flex items-center">VEZES</span>
+              <span className="bg-muted border border-l-0 border-card-border rounded-r-lg px-3 py-2.5 text-xs text-gray-500 flex items-center">VEZES</span>
             </div>
           </div>
         </div>
@@ -145,7 +145,7 @@ export function FocoProva() {
               type="checkbox"
               checked={selected.size === filteredContents.length && filteredContents.length > 0}
               onChange={toggleAll}
-              className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-600 focus:ring-0"
+              className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-primary focus:ring-0"
             />
             <span className="text-xs text-gray-400">Selecionar Todos ({filteredContents.length})</span>
           </label>
@@ -156,7 +156,7 @@ export function FocoProva() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder="Pesquisar conteúdo..."
-            className="w-full bg-[#0d1117] border border-card-border rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-blue-500"
+            className="w-full bg-muted border border-card-border rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-primary"
           />
           <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -171,14 +171,14 @@ export function FocoProva() {
               <label
                 key={key}
                 className={`flex items-start gap-2.5 p-3 rounded-lg border cursor-pointer transition-colors ${
-                  checked ? 'border-blue-500/50 bg-blue-500/5' : 'border-card-border hover:border-gray-600'
+                  checked ? 'border-primary/50 bg-primary/5' : 'border-card-border hover:border-gray-600'
                 }`}
               >
                 <input
                   type="checkbox"
                   checked={checked}
                   onChange={() => toggle(key)}
-                  className="mt-0.5 w-3.5 h-3.5 rounded border-gray-600 bg-gray-800 text-blue-600 focus:ring-0 flex-shrink-0"
+                  className="mt-0.5 w-3.5 h-3.5 rounded border-gray-600 bg-gray-800 text-primary focus:ring-0 flex-shrink-0"
                 />
                 <div className="min-w-0">
                   <p className="text-xs text-white truncate">{c.sub}</p>
@@ -197,7 +197,7 @@ export function FocoProva() {
           <button
             onClick={handleGerar}
             disabled={selected.size === 0 || !dataProva}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+            className="flex items-center gap-2 bg-primary hover:bg-primary/90 disabled:bg-gray-700 disabled:cursor-not-allowed text-primary-foreground text-sm font-medium px-4 py-2 rounded-lg transition-colors"
           >
             <Target size={14} />
             Gerar Cronograma

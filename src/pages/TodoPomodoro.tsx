@@ -76,7 +76,7 @@ export function TodoPomodoro() {
         <div className="col-span-3 bg-card border border-card-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-white flex items-center gap-2">
-              <span className="text-blue-400">☑</span> Tarefas
+              <span className="text-primary">☑</span> Tarefas
             </h3>
             {done.length > 0 && (
               <button onClick={clearTarefasConcluidas} className="text-gray-600 hover:text-red-400 transition-colors">
@@ -90,9 +90,9 @@ export function TodoPomodoro() {
               value={input}
               onChange={e => setInput(e.target.value)}
               placeholder="Adicionar nova tarefa..."
-              className="flex-1 bg-[#0d1117] border border-card-border rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-blue-500"
+              className="flex-1 bg-muted border border-card-border rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-primary"
             />
-            <button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg transition-colors">
+            <button type="submit" className="bg-primary hover:bg-primary/90 text-primary-foreground px-3 py-2 rounded-lg transition-colors">
               <Plus size={16} />
             </button>
           </form>
@@ -104,7 +104,7 @@ export function TodoPomodoro() {
                   type="checkbox"
                   checked={false}
                   onChange={() => toggleTarefa(t.id)}
-                  className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-blue-600 focus:ring-0 flex-shrink-0 cursor-pointer"
+                  className="w-4 h-4 rounded border-gray-600 bg-gray-800 text-primary focus:ring-0 flex-shrink-0 cursor-pointer"
                 />
                 <span className="flex-1 text-sm text-gray-200">{t.texto}</span>
                 <button onClick={() => deleteTarefa(t.id)} className="opacity-0 group-hover:opacity-100 text-gray-600 hover:text-red-400 transition-all">
@@ -118,7 +118,7 @@ export function TodoPomodoro() {
                   type="checkbox"
                   checked={true}
                   onChange={() => toggleTarefa(t.id)}
-                  className="w-4 h-4 rounded border-gray-600 bg-blue-600 text-blue-600 focus:ring-0 flex-shrink-0 cursor-pointer"
+                  className="w-4 h-4 rounded border-gray-600 bg-primary text-primary focus:ring-0 flex-shrink-0 cursor-pointer"
                 />
                 <span className="flex-1 text-sm text-gray-500 line-through">{t.texto}</span>
                 <button onClick={() => deleteTarefa(t.id)} className="opacity-0 group-hover:opacity-100 text-gray-600 hover:text-red-400 transition-all">
@@ -199,7 +199,7 @@ export function TodoPomodoro() {
                       setCustomDurations(d => ({ ...d, [m]: v }));
                       if (mode === m) setTimeLeft(v);
                     }}
-                    className="w-16 bg-[#0d1117] border border-card-border rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-blue-500"
+                    className="w-16 bg-muted border border-card-border rounded px-2 py-1 text-xs text-white text-center focus:outline-none focus:border-primary"
                   />
                 </div>
               ))}

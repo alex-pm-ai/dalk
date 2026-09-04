@@ -49,14 +49,14 @@ export function Simulados() {
         <h2 className="text-lg font-bold text-white">Simulados</h2>
         <button
           onClick={() => setAddOpen(true)}
-          className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-3 py-2 rounded-lg transition-colors"
+          className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-medium px-3 py-2 rounded-lg transition-colors"
         >
           <Plus size={14} /> Adicionar Simulado
         </button>
       </div>
 
       <div className="grid grid-cols-3 gap-4">
-        <StatsCard label="Simulados Realizados" value={count} icon={<BarChart2 size={16} className="text-blue-400" />} />
+        <StatsCard label="Simulados Realizados" value={count} icon={<BarChart2 size={16} className="text-primary" />} />
         <StatsCard
           label="Média de Acertos"
           value={`${mediaAcertos}%`}
@@ -77,16 +77,16 @@ export function Simulados() {
           <div className="flex gap-6 items-start">
             <ResponsiveContainer width={260} height={220}>
               <RadarChart data={radarData}>
-                <PolarGrid stroke="#1e2a3b" />
+                <PolarGrid stroke="rgba(255,255,255,0.09)" />
                 <PolarAngleAxis dataKey="area" tick={{ fontSize: 10, fill: '#6b7280' }} />
                 <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
-                <Radar name="%" dataKey="pct" stroke="#818cf8" fill="#818cf8" fillOpacity={0.3} strokeWidth={2} />
+                <Radar name="%" dataKey="pct" stroke="#bcc829" fill="#bcc829" fillOpacity={0.3} strokeWidth={2} />
                 <Tooltip
                   content={({ active, payload }: any) => {
                     if (!active || !payload?.[0]) return null;
                     const d = payload[0].payload;
                     return (
-                      <div className="bg-[#111827] border border-card-border rounded-lg px-3 py-2 text-xs">
+                      <div className="bg-card border border-card-border rounded-lg px-3 py-2 text-xs">
                         <p className="text-gray-300">{d.fullArea}</p>
                         <p className="text-indigo-400 font-bold">{d.pct}%</p>
                         <p className="text-gray-500">{d.acertos}/{d.total} questões</p>
@@ -165,7 +165,7 @@ export function Simulados() {
                   </td>
                 </tr>
                 {expanded === sim.id && sim.detalhePorArea.length > 0 && (
-                  <tr className="border-b border-card-border/50 bg-[#0d1117]">
+                  <tr className="border-b border-card-border/50 bg-muted">
                     <td colSpan={6} className="px-6 py-4">
                       <p className="text-xs font-medium text-gray-400 mb-3">Detalhe por Área</p>
                       <div className="space-y-2">
