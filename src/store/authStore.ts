@@ -40,7 +40,7 @@ interface AuthState {
   carregado: boolean; // /auth/me já resolveu nesta sessão
 
   login: (email: string, senha: string) => Promise<void>;
-  register: (nome: string, email: string, senha: string, tipo: string) => Promise<void>;
+  register: (nome: string, email: string, senha: string) => Promise<void>;
   logout: () => Promise<void>;
   carregarMe: () => Promise<void>;
   tentarRefresh: () => Promise<boolean>;
@@ -62,8 +62,8 @@ export const useAuthStore = create<AuthState>()(
         await get().carregarMe();
       },
 
-      register: async (nome, email, senha, tipo) => {
-        const r = await api.post<TokensResp>('/auth/register', { nome, email, senha, tipo });
+      register: async (nome, email, senha) => {
+        const r = await api.post<TokensResp>('/auth/register', { nome, email, senha });
         set({ accessToken: r.accessToken, refreshToken: r.refreshToken, usuario: r.usuario });
         await get().carregarMe();
       },

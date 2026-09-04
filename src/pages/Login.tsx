@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore';
 import { ApiError } from '../lib/api';
 import { Logo } from '../components/ui/Logo';
@@ -6,12 +7,18 @@ import { Logo } from '../components/ui/Logo';
 export function Login() {
   const login = useAuthStore((s) => s.login);
   const register = useAuthStore((s) => s.register);
+  const accessToken = useAuthStore((s) => s.accessToken);
 
-  const [modo, setModo] = useState<'login' | 'register'>('login');
+  const [searchParams] = useSearchParams();
+  const planoParam = searchParams.get('plano');
+  const destinoAutenticado = planoParam ? `/app?plano=${planoParam}` : '/app';
+
+  const [modo, setModo] = useState<'login' | 'register'>(
+    searchParams.get('modo') === 'register' ? 'register' : 'login'
+  );
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [tipo, setTipo] = useState('R1');
   const [erro, setErro] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +28,7 @@ export function Login() {
     setLoading(true);
     try {
       if (modo === 'login') await login(email, senha);
-      else await register(nome, email, senha, tipo);
+      else await register(nome, email, senha);
     } catch (err) {
       setErro(err instanceof ApiError ? err.message : 'Não foi possível conectar ao servidor.');
     } finally {
@@ -29,11 +36,15 @@ export function Login() {
     }
   }
 
+  if (accessToken) return <Navigate to={destinoAutenticado} replace />;
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm">
         <div className="flex items-center justify-center mb-8">
-          <Logo size="lg" />
+          <Link to="/">
+            <Logo size="lg" />
+          </Link>
         </div>
 
         <div className="bg-card border border-card-border rounded-2xl p-6">
@@ -81,22 +92,6 @@ export function Login() {
                 className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
               />
             </div>
-
-            {modo === 'register' && (
-              <div>
-                <label className="block text-xs text-gray-400 mb-1.5">Nível</label>
-                <select
-                  value={tipo}
-                  onChange={(e) => setTipo(e.target.value)}
-                  className="w-full bg-muted border border-card-border rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
-                >
-                  <option value="R1">R1 (1º ano)</option>
-                  <option value="R2">R2 (2º ano)</option>
-                  <option value="R3">R3 (3º ano)</option>
-                  <option value="Pré">Pré-residência</option>
-                </select>
-              </div>
-            )}
 
             {erro && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-lg px-3 py-2 text-xs text-red-400">

@@ -7,14 +7,14 @@ import { useAuthStore } from '../../store/authStore';
 import { Logo } from '../ui/Logo';
 
 const nav = [
-  { to: '/',            icon: LayoutDashboard, label: 'Dashboard' },
-  { to: '/desempenho',  icon: BarChart2,       label: 'Desempenho' },
-  { to: '/historico',   icon: History,         label: 'Histórico' },
-  { to: '/simulados',   icon: FileText,        label: 'Simulados' },
-  { to: '/calendario',  icon: Calendar,        label: 'Calendário' },
-  { to: '/foco-prova',  icon: Target,          label: 'Foco Prova' },
-  { to: '/todo',        icon: CheckSquare,     label: 'To-Do & Pomodoro' },
-  { to: '/config',      icon: Settings,        label: 'Configuração de revisão' },
+  { to: '/app',              icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/app/desempenho',   icon: BarChart2,       label: 'Desempenho' },
+  { to: '/app/historico',    icon: History,         label: 'Histórico' },
+  { to: '/app/simulados',    icon: FileText,        label: 'Simulados' },
+  { to: '/app/calendario',   icon: Calendar,        label: 'Calendário' },
+  { to: '/app/foco-prova',   icon: Target,          label: 'Foco Prova' },
+  { to: '/app/todo',         icon: CheckSquare,     label: 'To-Do & Pomodoro' },
+  { to: '/app/config',       icon: Settings,        label: 'Configuração de revisão' },
 ];
 
 interface Props {
@@ -57,7 +57,7 @@ export function Sidebar({ open, onClose, onAddRevisao, onAddFlashcard }: Props) 
             <NavLink
               key={to}
               to={to}
-              end={to === '/'}
+              end={to === '/app'}
               onClick={onClose}
               className={({ isActive }) =>
                 `flex items-center gap-2.5 px-4 py-2 mx-2 rounded-lg text-sm transition-colors ${
@@ -99,7 +99,7 @@ export function Sidebar({ open, onClose, onAddRevisao, onAddFlashcard }: Props) 
           </div>
           <div className="min-w-0">
             <p className="text-xs font-medium text-gray-200 truncate">{usuario?.nome ?? 'Residente'}</p>
-            <p className="text-xs text-gray-500">{usuario?.tipo ?? 'R1'} · Residência</p>
+            <p className="text-xs text-gray-500 truncate">{usuario?.email}</p>
           </div>
         </div>
         <button

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Check, LogOut, Loader2 } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import { api } from '../lib/api';
+import { reais } from '../lib/format';
 import { Logo } from '../components/ui/Logo';
 
 interface Plano {
@@ -18,12 +20,13 @@ interface CheckoutResp {
   gatewayPayId: string;
 }
 
-const reais = (centavos: number) => `R$ ${(centavos / 100).toFixed(2).replace('.', ',')}`;
-
 export function Assinar() {
   const carregarMe = useAuthStore((s) => s.carregarMe);
   const logout = useAuthStore((s) => s.logout);
   const usuario = useAuthStore((s) => s.usuario);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const planoParam = searchParams.get('plano');
 
   const [planos, setPlanos] = useState<Plano[]>([]);
   const [checkout, setCheckout] = useState<CheckoutResp | null>(null);
@@ -33,6 +36,15 @@ export function Assinar() {
   useEffect(() => {
     api.get<Plano[]>('/billing/planos').then(setPlanos).catch(() => setErro('Erro ao carregar planos.'));
   }, []);
+
+  // Veio de /planos com um plano já escolhido → pula a tela de seleção e vai direto pro Pix.
+  useEffect(() => {
+    if (!planoParam || checkout || loading) return;
+    if (!planos.some((p) => p.id === planoParam)) return;
+    setSearchParams({}, { replace: true });
+    void assinar(planoParam);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [planoParam, planos]);
 
   // Após gerar o Pix, verifica o pagamento a cada 4s (o webhook é quem ativa)
   useEffect(() => {
