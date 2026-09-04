@@ -57,16 +57,19 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
 function AppShell() {
   const [addRevisaoOpen, setAddRevisaoOpen] = useState(false);
   const [addFlashcardOpen, setAddFlashcardOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="flex min-h-screen bg-background">
       <Sidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
         onAddRevisao={() => setAddRevisaoOpen(true)}
         onAddFlashcard={() => setAddFlashcardOpen(true)}
       />
 
-      <div className="ml-52 flex-1 flex flex-col min-h-screen">
-        <Header />
+      <div className="md:ml-52 flex-1 flex flex-col min-h-screen">
+        <Header onMenuClick={() => setSidebarOpen(true)} />
         <main className="flex-1 p-6 overflow-auto">
           <Routes>
             <Route index                element={<Dashboard />} />

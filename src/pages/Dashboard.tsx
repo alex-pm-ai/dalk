@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TrendingUp, CheckCircle2, Clock, AlertTriangle, RefreshCw, ChevronLeft, ChevronRight } from 'lucide-react';
+import { TrendingUp, CheckCircle2, Clock, AlertTriangle, RefreshCw, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { StatsCard } from '../components/ui/StatsCard';
 import { today, getWeekDays, DAY_NAMES_SHORT, formatDateShort, minutesToHours, startOfWeek, endOfWeek } from '../utils/dateUtils';
@@ -46,6 +46,17 @@ export function Dashboard() {
         <h1 className="text-xl font-bold text-white">Olá, residente!</h1>
         <p className="text-sm text-gray-500 mt-0.5">Aqui está um resumo do seu progresso hoje.</p>
       </div>
+
+      {/* Orientação para quem ainda não tem nenhuma revisão cadastrada */}
+      {revisoes.length === 0 && (
+        <div className="flex items-start gap-2.5 bg-primary/10 border border-primary/30 rounded-xl px-4 py-3">
+          <Sparkles size={16} className="text-primary mt-0.5 flex-shrink-0" />
+          <p className="text-sm text-primary/90">
+            Você ainda não tem nenhuma revisão cadastrada. Use o botão{' '}
+            <span className="font-medium">"Adicionar Revisão"</span> no menu lateral para começar.
+          </p>
+        </div>
+      )}
 
       {/* Alert atrasadas */}
       {atrasadas.length > 0 && (
@@ -135,13 +146,13 @@ export function Dashboard() {
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm font-medium text-white">Calendário Semanal</p>
           <div className="flex items-center gap-2">
-            <button onClick={() => setWeekOffset(w => w - 1)} className="p-1 hover:bg-white/5 rounded">
+            <button onClick={() => setWeekOffset(w => w - 1)} className="p-1 hover:bg-white/5 rounded" aria-label="Semana anterior" title="Semana anterior">
               <ChevronLeft size={16} className="text-gray-400" />
             </button>
             <span className="text-xs text-gray-400">
               {formatDateShort(weekDays[0])} - {formatDateShort(weekDays[6])}
             </span>
-            <button onClick={() => setWeekOffset(w => w + 1)} className="p-1 hover:bg-white/5 rounded">
+            <button onClick={() => setWeekOffset(w => w + 1)} className="p-1 hover:bg-white/5 rounded" aria-label="Próxima semana" title="Próxima semana">
               <ChevronRight size={16} className="text-gray-400" />
             </button>
           </div>

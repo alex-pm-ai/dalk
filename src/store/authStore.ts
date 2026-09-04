@@ -3,6 +3,10 @@ import { persist } from 'zustand/middleware';
 import { api, API_URL, ApiError } from '../lib/api';
 import { useStore } from './useStore';
 
+// Evita disparar /auth/me (e um possível /auth/refresh) em duplicidade quando
+// carregarMe() é chamado mais de uma vez em paralelo (ex.: StrictMode em dev).
+let meInFlight: Promise<void> | null = null;
+
 export interface UsuarioAuth {
   id: string;
   nome: string;
@@ -65,26 +69,32 @@ export const useAuthStore = create<AuthState>()(
       },
 
       carregarMe: async () => {
-        try {
-          const r = await api.get<MeResp>('/auth/me');
-          set({ usuario: r.usuario, assinatura: r.assinatura, carregado: true });
-        } catch (e) {
-          // Token expirado/inválido: tenta renovar via refresh e repetir uma vez.
-          // (api.ts não auto-renova rotas /auth/*, então tratamos aqui.)
-          if (e instanceof ApiError && e.status === 401) {
-            const ok = await get().tentarRefresh();
-            if (ok) {
-              const r = await api.get<MeResp>('/auth/me');
-              set({ usuario: r.usuario, assinatura: r.assinatura, carregado: true });
+        if (meInFlight) return meInFlight;
+        meInFlight = (async () => {
+          try {
+            const r = await api.get<MeResp>('/auth/me');
+            set({ usuario: r.usuario, assinatura: r.assinatura, carregado: true });
+          } catch (e) {
+            // Token expirado/inválido: tenta renovar via refresh e repetir uma vez.
+            // (api.ts não auto-renova rotas /auth/*, então tratamos aqui.)
+            if (e instanceof ApiError && e.status === 401) {
+              const ok = await get().tentarRefresh();
+              if (ok) {
+                const r = await api.get<MeResp>('/auth/me');
+                set({ usuario: r.usuario, assinatura: r.assinatura, carregado: true });
+                return;
+              }
+              // Refresh falhou → sessão morta: limpa tudo e cai no Login.
+              await get().logout();
               return;
             }
-            // Refresh falhou → sessão morta: limpa tudo e cai no Login.
-            await get().logout();
-            return;
+            // Erro de rede (API fora do ar etc.) → propaga para quem chamou.
+            throw e;
+          } finally {
+            meInFlight = null;
           }
-          // Erro de rede (API fora do ar etc.) → propaga para quem chamou.
-          throw e;
-        }
+        })();
+        return meInFlight;
       },
 
       tentarRefresh: async () => {

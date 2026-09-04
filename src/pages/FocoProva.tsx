@@ -130,7 +130,7 @@ export function FocoProva() {
                 onChange={e => setFrequencia(Number(e.target.value))}
                 className="flex-1 bg-muted border border-card-border rounded-l-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-primary"
               />
-              <span className="bg-[#1a2035] border border-l-0 border-card-border rounded-r-lg px-3 py-2.5 text-xs text-gray-500 flex items-center">VEZES</span>
+              <span className="bg-muted border border-l-0 border-card-border rounded-r-lg px-3 py-2.5 text-xs text-gray-500 flex items-center">VEZES</span>
             </div>
           </div>
         </div>

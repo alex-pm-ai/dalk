@@ -153,7 +153,7 @@ export function AddRevisaoModal({ open, onClose, defaultTipo }: Props) {
                   placeholder="0"
                   className="w-full bg-muted border border-card-border rounded-l-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-primary"
                 />
-                <span className="bg-[#1a2035] border border-l-0 border-card-border rounded-r-lg px-3 py-2 text-xs text-gray-500">TOTAL</span>
+                <span className="bg-muted border border-l-0 border-card-border rounded-r-lg px-3 py-2 text-xs text-gray-500">TOTAL</span>
               </div>
             </div>
             <div>
@@ -168,7 +168,7 @@ export function AddRevisaoModal({ open, onClose, defaultTipo }: Props) {
                   placeholder="0"
                   className="w-full bg-muted border border-card-border rounded-l-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-primary"
                 />
-                <span className="bg-[#1a2035] border border-l-0 border-card-border rounded-r-lg px-3 py-2 text-xs text-green-500">ACERTOS</span>
+                <span className="bg-muted border border-l-0 border-card-border rounded-r-lg px-3 py-2 text-xs text-green-500">ACERTOS</span>
               </div>
             </div>
           </div>

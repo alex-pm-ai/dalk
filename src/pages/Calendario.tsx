@@ -55,13 +55,13 @@ export function Calendario() {
             </button>
           )}
           <div className="flex items-center gap-2 bg-card border border-card-border rounded-lg px-3 py-2">
-            <button onClick={prevMonth} className="text-gray-400 hover:text-white">
+            <button onClick={prevMonth} className="text-gray-400 hover:text-white" aria-label="Mês anterior" title="Mês anterior">
               <ChevronLeft size={16} />
             </button>
             <span className="text-sm font-medium text-white min-w-32 text-center">
               {MONTH_NAMES[month]} {year}
             </span>
-            <button onClick={nextMonth} className="text-gray-400 hover:text-white">
+            <button onClick={nextMonth} className="text-gray-400 hover:text-white" aria-label="Próximo mês" title="Próximo mês">
               <ChevronRight size={16} />
             </button>
           </div>
